@@ -1,0 +1,31 @@
+name: 送一只鹈鹕 / Send a pelican
+description: 贴上符合 SPEC.md 的 JSON / Paste a JSON file that follows SPEC.md
+title: "pelican: "
+body:
+  - type: input
+    id: name
+    attributes:
+      label: 名字 / Name
+      description: 显示在详情卡上的名字 / The name shown on its card
+    validations:
+      required: true
+  - type: input
+    id: author
+    attributes:
+      label: 作者 / Author
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: 许可 / Licence
+      placeholder: CC-BY-4.0
+    validations:
+      required: true
+  - type: textarea
+    id: json
+    attributes:
+      label: JSON
+      render: json
+    validations:
+      required: true

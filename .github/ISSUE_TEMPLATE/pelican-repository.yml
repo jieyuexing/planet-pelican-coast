@@ -1,0 +1,17 @@
+name: 我有一个鹈鹕仓库 / I have a pelican repository
+description: 你的三维鹈鹕网页仓库 / Your 3D pelican page repository
+title: "repository: "
+body:
+  - type: input
+    id: url
+    attributes:
+      label: 仓库地址 / Repository
+    validations:
+      required: true
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: 确认 / Confirm
+      options:
+        - label: 我是作者，同意它在鹈鹕海岸里展示并注明来源 / I am the author and agree to it being shown on Pelican Coast with attribution
+          required: true
