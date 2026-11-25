@@ -33,16 +33,21 @@ Limits: at most 200 parts including groups, nesting at most 6 levels deep, no ot
 
 ## Limits the validator enforces
 
-- top level: exactly `format` and `parts`
-- at most 200 parts including groups, nesting at most 6 levels deep, file at most 200 KB
+These are the rules the game applies when it reads the register, so a file that passes here is taken in by the game.
+
+- top level: exactly `format` and `parts`; at most 200 parts including groups, nesting at most 6 levels deep, no parent loops, file at most 200 KB
+- `id`: a string of 1 to 48 characters, unique in the file; `parent`: another part's id or null
 - `shape`: `box`, `sphere`, `cylinder`, `cone`, `torus`, `group`
-- `position`, `rotation`, `scale`: three finite numbers each
-- `color`: `#rrggbb` (not needed on a `group`)
-- `tube`: a number in (0, 0.5]
-- `motion`: `type` spin or swing, `axis` x, y or z, `per` meter or second, numeric `amount`; a swing also needs `degrees`
+- `position`, `scale`: three finite numbers within ±10; `rotation`: three finite numbers within ±3600
+- `color`: `#rrggbb` (not needed on a `group`; if a group has one, it must still be `#rrggbb`)
+- `tube`: only on a `torus`, a number in [0.005, 0.5]
+- `motion`: `type` spin or swing, `axis` x, y or z, `per` meter or second, `amount` within ±20; `degrees` within ±180 (a swing needs it); `phase` within ±2
+- at rest (distance 0, time 0, swings at their `phase`) the model has at least one shape, and all shapes fit in x −3…3, y −1…5, z −2…2
 - no other fields anywhere
 
-Run `python3 tools/validate.py` to check a file.
+`pelicans/index.json` is `{"format":"pelican-registry/1","pelicans":[...]}` with at most 64 entries. Each entry has `id` (lowercase letters, digits, dots and hyphens, at most 48, not `u` followed by digits), `name` and `author` (1–60 characters, no control characters), `date` (a real `YYYY-MM-DD`), `file` (exactly `pelicans/<id>.json`), `sha256` (64 lowercase hex digits of the file), `license` (an SPDX identifier); optional `kind`, `source` (`https://github.com/<owner>/<repo>` or null), `generatedVia`, `effort`, `note`. Ids are unique, and `pelicans/` holds nothing but `index.json` and the listed files.
+
+Run `python3 tools/validate.py` to check the register, and `python3 tools/test_validate.py` after changing the validator.
 
 ## How the game uses it
 
